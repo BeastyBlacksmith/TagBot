@@ -1475,7 +1475,7 @@ Or create releases manually via the GitHub UI.
         logger.debug(f"Checking all {len(current)} versions")
         # Make sure to insert items in SemVer order.
         versions = {}
-        for v in sorted(current.keys(), key=VersionInfo.parse):
+        for v in sorted(current.keys(), key=VersionInfo.parse, reverse=True):
             versions[v] = current[v]
             _metrics.versions_checked += 1
         result = self._filter_map_versions(versions)
