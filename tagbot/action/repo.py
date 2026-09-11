@@ -280,7 +280,7 @@ class Repo:
         url = f"git@{urlparse(self._gh_url).hostname}:{self._registry_name}.git"
         self._git.command("remote", "add", "origin", url, repo=repo)
         self._git.command("fetch", "origin", repo=repo)
-        self._git.command("checkout", self._git.default_branch(repo=repo), repo=repo)
+        self._git.command("checkout", f"origin/{self._git.default_branch(repo=repo)}", repo=repo)
         self.__registry_clone_dir = repo
         return repo
 
