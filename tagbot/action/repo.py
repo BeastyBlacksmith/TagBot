@@ -918,6 +918,7 @@ class Repo:
             tags_cache = self._build_tags_cache()
             if version_tag in tags_cache:
                 # Tag exists - we skip without full validation for performance.
+                logger.info(f"Version {version} already has a release, skipping")
                 skipped_existing += 1
                 continue
 
@@ -926,12 +927,12 @@ class Repo:
             expected = self._commit_sha_of_tree(tree)
             if not expected:
                 # Fall back to registry PR lookup (slower - requires API calls)
-                logger.debug(
-                    f"No matching tree for {version}, falling back to registry PR"
+                logger.info(
+                    f"No matching tree for {version}, falling back to registry PR lookup"
                 )
                 expected = self._commit_sha_from_registry_pr(version, tree)
             if not expected:
-                logger.debug(
+                logger.info(
                     f"Skipping {version}: no matching tree or registry PR found"
                 )
                 continue
@@ -951,7 +952,7 @@ class Repo:
             valid[version] = expected
 
         if skipped_existing > 0:
-            logger.debug(f"Skipped {skipped_existing} versions with existing tags")
+            logger.info(f"Skipped {skipped_existing} versions with existing tags")
         return valid
 
     def _get_versions_toml(self) -> Dict[str, Any]:
