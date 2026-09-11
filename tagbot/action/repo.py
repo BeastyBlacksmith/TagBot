@@ -1473,7 +1473,7 @@ Or create releases manually via the GitHub UI.
         # Check all versions every time (no lookback window)
         # This allows backfilling old releases if TagBot is set up later
         logger.debug(f"Checking all {len(current)} versions")
-        # Make sure to insert items in SemVer order.
+        # Make sure to insert items in SemVer order (newest first).
         versions = {}
         for v in sorted(current.keys(), key=VersionInfo.parse, reverse=True):
             versions[v] = current[v]
